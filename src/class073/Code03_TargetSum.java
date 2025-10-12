@@ -36,7 +36,8 @@ public class Code03_TargetSum {
 
 	// 因为累加和可以为负数
 	// 所以缓存动态规划表用哈希表
-	public static int f2(int[] nums, int target, int i, int j, HashMap<Integer, HashMap<Integer, Integer>> dp) {
+	public static int f2(int[] nums, int target, int i, int j,
+						 HashMap<Integer, HashMap<Integer, Integer>> dp) {
 		if (i == nums.length) {
 			return j == target ? 1 : 0;
 		}

@@ -26,7 +26,7 @@ public class AddTwoNumbers {
 
 		// 也可以复用老链表
 		// 不过这个实现没有这么做，都是生成的新节点(为了教学好懂)
-		public static ListNode addTwoNumbers(ListNode h1, ListNode h2) {
+		public  ListNode addTwoNumbers(ListNode h1, ListNode h2) {
 			ListNode ans = null, cur = null;
 			int carry = 0;
 			for (int sum, val; // 声明变量
