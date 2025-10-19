@@ -1,62 +1,105 @@
 package class073;
 
-import com.sun.javafx.image.IntPixelGetter;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class Test01 {
-    public static int findTargetSumWays1(int[] nums, int target) {
-        return f1(nums, target, 0, 0);
-    }
 
-    private static int f1(int[] nums, int target, int i, int sum) {
-        if (i == nums.length) {
-            return sum == target ? 1 : 0;
+    public static int[] topKSum1(int[] nums, int k) {
+        ArrayList<Integer> allSubsequences = new ArrayList<>();
+        f1(nums, 0, 0, allSubsequences);
+        allSubsequences.sort((a, b) -> a.compareTo(b));
+        int[] ans = new int[k];
+        for (int i = 0; i < k; i++) {
+            ans[i] = allSubsequences.get(i);
         }
-        return f1(nums, target, i + 1, sum + nums[i])
-                + f1(nums, target, i + 1, sum - nums[i]);
-    }
-
-    public static int f2(int[] nums, int target, int i, int j,
-                         HashMap<Integer, HashMap<Integer, Integer>> dp) {
-        if (i == nums.length) {
-            return j == target ? 1 : 0;
-        }
-        if (dp.containsKey(i) && dp.get(i).containsKey(j)) {
-            return dp.get(i).get(j);
-        }
-        int ans = f2(nums, target, i + 1, j - nums[i], dp)
-                + f2(nums, target, i + 1, j + nums[i], dp);
-        dp.putIfAbsent(i, new HashMap<>());
-        dp.get(i).put(j, ans);
         return ans;
     }
 
-    public static int findTargetSumWays(int[] nums, int target) {
-        int s = 0;
-        for (int num : nums) {
-            s += num;
+    // 暴力方法
+    // 得到所有子序列的和
+    public static void f1(int[] nums, int index, int sum, ArrayList<Integer> ans) {
+        if (index == nums.length) {
+            ans.add(sum);
+        } else {
+            f1(nums, index + 1, sum, ans);
+            f1(nums, index + 1, sum + nums[index], ans);
         }
-        if (target < -s || target > s) {
-            return 0;
-        }
-        int n = nums.length;
-        int m = s * 2 + 1;
-        int[][] dp = new int[n + 1][m];
-        dp[n][target + s] = 1;
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = -s; j <= s; j++) {
-                if (j + nums[i] + s < m) {
-                    dp[i][j + s] = dp[i + 1][j + nums[i] + s];
-                }
-                if (j - nums[i] >= 0) {
-                    dp[j][j + s] += dp[i + 1][j - nums[i] + s];
-                }
-            }
-        }
-        return dp[0][s];
     }
 
+    // 01背包来实现
+    // 这种方法此时不是最优解
+    // 因为n很大，数值也很大，那么可能的累加和就更大
+    // 时间复杂度太差
+    public static int[] topKSum2(int[] nums, int k) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        // dp[i][j]
+        // 1) dp[i-1][j]
+        // 2) dp[i-1][j-nums[i]
+        int[] dp = new int[sum + 1];
+        dp[0] = 1;
+        for (int num : nums) {
+            for (int j = sum; j >= num; j--) {
+                dp[j] += dp[j - num];
+            }
+        }
+        int[] ans = new int[k];
+        int index = 0;
+        for (int j = 0; j <= sum && index < k; j++) {
+            for (int i = 0; i < dp[j] && index < k; i++) {
+                ans[index++] = j;
+            }
+        }
+        return ans;
+    }
+
+    // 正式方法
+    // 用堆来做是最优解，时间复杂度O(n * log n) + O(k * log k)
+    public static int[] topKSum3(int[] nums, int k) {
+        PriorityQueue<int[]> heap = new PriorityQueue<int[]>(Comparator.comparingInt(o -> o[1]));
+        heap.add(new int[]{0, nums[0]});
+        int[] ans = new int[k];
+        for (int i = 0; i < k; i++) {
+            int[] cur = heap.poll();
+            int right = cur[0];
+            int sum = cur[1];
+            ans[i] = sum;
+            if (right + 1 < nums.length) {
+                heap.add(new int[]{right + 1, sum - nums[right] + nums[right + 1]});
+                heap.add(new int[]{right + 1, sum + nums[right + 1]});
+            }
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int n = 15;
+        int v = 40;
+        int testTime = 5000;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTime; i++) {
+            int len = (int) (Math.random() * n) + 1;
+            int[] nums = randomArray(len, v);
+            int k = (int) (Math.random() * ((1 << len) - 1)) + 1;
+            int[] ans1 = topKSum1(nums, k);
+//            int[] ans2 = topKSum2(nums, k);
+//            int[] ans3 = topKSum3(nums, k);
+//            if (!equals(ans1, ans2) || !equals(ans1, ans3)) {
+//                System.out.println("出错了！");
+//            }
+        }
+    }
+
+    // 为了测试
+    public static int[] randomArray(int len, int value) {
+        int[] ans = new int[len];
+        for (int i = 0; i < len; i++) {
+            ans[i] = (int) (Math.random() * value);
+        }
+        return ans;
+    }
 }
