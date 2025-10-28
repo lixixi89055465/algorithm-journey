@@ -7,14 +7,15 @@ import java.util.*;
 public class Test01 {
 
     public static int[] topKSum1(int[] nums, int k) {
-        ArrayList<Integer> allSubsequences = new ArrayList<>();
-        f1(nums, 0, 0, allSubsequences);
-        allSubsequences.sort((a, b) -> a.compareTo(b));
+        ArrayList<Integer> all = new ArrayList<>();
+        f1(nums, 0, 0, all);
+        all.sort((a, b) -> a.compareTo(b));
         int[] ans = new int[k];
         for (int i = 0; i < k; i++) {
-            ans[i] = allSubsequences.get(i);
+            ans[i] = all.get(i);
         }
         return ans;
+
     }
 
     // 暴力方法
@@ -37,9 +38,6 @@ public class Test01 {
         for (int num : nums) {
             sum += num;
         }
-        // dp[i][j]
-        // 1) dp[i-1][j]
-        // 2) dp[i-1][j-nums[i]
         int[] dp = new int[sum + 1];
         dp[0] = 1;
         for (int num : nums) {
@@ -60,15 +58,20 @@ public class Test01 {
     // 正式方法
     // 用堆来做是最优解，时间复杂度O(n * log n) + O(k * log k)
     public static int[] topKSum3(int[] nums, int k) {
-        PriorityQueue<int[]> heap = new PriorityQueue<int[]>(Comparator.comparingInt(o -> o[1]));
+        PriorityQueue<int[]> heap = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+        });
         heap.add(new int[]{0, nums[0]});
         int[] ans = new int[k];
         for (int i = 0; i < k; i++) {
             int[] cur = heap.poll();
-            int right = cur[0];
+            int right = cur[0] + 1;
             int sum = cur[1];
             ans[i] = sum;
-            if (right + 1 < nums.length) {
+            if (right + 1 > nums.length) {
                 heap.add(new int[]{right + 1, sum - nums[right] + nums[right + 1]});
                 heap.add(new int[]{right + 1, sum + nums[right + 1]});
             }

@@ -90,7 +90,8 @@ public class Code04_RegularExpressionMatching {
 			if (j + 1 == p.length || p[j + 1] != '*') {
 				ans = (s[i] == p[j] || p[j] == '.') && f2(s, p, i + 1, j + 1, dp);
 			} else {
-				ans = f2(s, p, i, j + 2, dp) || ((s[i] == p[j] || p[j] == '.') && f2(s, p, i + 1, j, dp));
+				ans = f2(s, p, i, j + 2, dp) || ((s[i] == p[j] || p[j] == '.')
+						&& f2(s, p, i + 1, j, dp));
 			}
 		}
 		dp[i][j] = ans ? 1 : 2;
