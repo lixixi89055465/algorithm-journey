@@ -15,25 +15,35 @@ package class079;
 import java.util.ArrayList;
 
 public class Test01 {
-
     public static long minimumFuelCost(int[][] roads, int seats) {
         int n = roads.length + 1;
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            graph.add(new ArrayList<Integer>());
+            graph.add(new ArrayList<>());
         }
-        for (int[] road : roads) {
-            graph.get(road[0]).add(road[1]);
-            graph.get(road[1]).add(road[0]);
+        for (int[] r : roads) {
+            graph.get(r[0]).add(r[1]);
+            graph.get(r[1]).add(r[0]);
         }
         int[] size = new int[n];
-        long[] cost = new long[n];
-        f(graph,seats,0,-1,size,cost);
+        int[] cost = new int[n];
+        f(graph, seats, 0, -1, size, cost);
         return cost[0];
     }
-    public static void f(ArrayList<ArrayList<Integer>> graph, int seats, int u, int p, int[] size, long[] cost) {
-        size[u]=1;
 
+    private static void f(ArrayList<ArrayList<Integer>> graph,
+                          int seats,
+                          int u, int p,
+                          int[] size, int[] cost) {
+        size[u] = 1;
+        for (Integer v : graph.get(u)) {
+            if (v != p) {
+                f(graph, seats, v, u, size, cost);
+                size[u] += size[v];
+                cost[u] += cost[v];
+                cost[u] += (size[v] + seats - 1) / seats;
+            }
+        }
     }
 
     public static void main(String[] args) {

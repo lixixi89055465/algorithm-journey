@@ -37,7 +37,9 @@ public class Code02_LongestPathWithDifferentAdjacent {
 		}
 	}
 
-	public static Info f(char[] s, ArrayList<ArrayList<Integer>> graph, int u) {
+	public static Info f(char[] s,
+						 ArrayList<ArrayList<Integer>> graph,
+						 int u) {
 		if (graph.get(u).isEmpty()) {
 			// u节点是叶
 			return new Info(1, 1);
