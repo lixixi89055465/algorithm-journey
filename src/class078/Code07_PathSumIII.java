@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Code07_PathSumIII {
 
 	// 不要提交这个类
-	public static class TreeNode {
+	private static class TreeNode {
 		public int val;
 		public TreeNode left;
 		public TreeNode right;

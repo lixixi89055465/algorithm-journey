@@ -33,7 +33,8 @@ public class Code01_MinimumFuelCost {
 
 	// 根据图，当前来到u，u的父节点是p
 	// 遍历完成后，请填好size[u]、cost[u]
-	public static void f(ArrayList<ArrayList<Integer>> graph, int seats, int u, int p, int[] size, long[] cost) {
+	public static void f(ArrayList<ArrayList<Integer>> graph, int seats,
+						 int u, int p, int[] size, long[] cost) {
 		size[u] = 1;
 		for (int v : graph.get(u)) {
 			if (v != p) {
