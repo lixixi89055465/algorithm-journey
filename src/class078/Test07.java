@@ -19,7 +19,7 @@ public class Test07 {
         HashMap<Long, Integer> presum = new HashMap<>();
         presum.put(0L, 1);
         ans = 0;
-        f(root, sum, 0L, presum);
+        f(root, sum, 0, presum);
         return ans;
     }
 
@@ -30,7 +30,7 @@ public class Test07 {
             presum.put(sum, presum.getOrDefault(sum, 0) + 1);
             f(x.left, target, sum, presum);
             f(x.right, target, sum, presum);
-            presum.put(sum, presum.get(sum) - 1);
+            presum.put(sum, presum.getOrDefault(sum, 0) - 1);
         }
     }
 }

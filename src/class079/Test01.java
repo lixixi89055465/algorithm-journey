@@ -41,11 +41,10 @@ public class Test01 {
                 f(graph, seats, v, u, size, cost);
                 size[u] += size[v];
                 cost[u] += cost[v];
-                cost[u] += (size[v] + seats - 1) / seats;
+                cost[u] += (size[u] + seats - 1) / seats;
             }
         }
     }
-
     public static void main(String[] args) {
 
     }
