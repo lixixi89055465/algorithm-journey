@@ -13,7 +13,7 @@ public class Test06 {
 
     // 提交如下的方法
     public int minCameraCover(TreeNode root) {
-        ans=0;
+        ans = 0;
         if (f(root) == 0) {
             ans++;
         }
@@ -29,7 +29,18 @@ public class Test06 {
     // 1: x是覆盖状态，x上没摄像头，x下方的节点都已经被覆盖
     // 2: x是覆盖状态，x上有摄像头，x下方的节点都已经被覆盖
     private int f(TreeNode x) {
-
+        if (x == null) {
+            return 1;
+        }
+        int left = f(x.left);
+        int right = f(x.right);
+        if (left == 0 || right == 0) {
+            ans++;
+            return 2;
+        }
+        if (left == 1 && right == 1) {
+            return 0;
+        }
+        return 1;
     }
-
 }

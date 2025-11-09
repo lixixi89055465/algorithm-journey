@@ -9,7 +9,7 @@ package class078;
 public class Code03_DiameterOfBinaryTree {
 
 	// 不要提交这个类
-	public static class TreeNode {
+	private static class TreeNode {
 		public int val;
 		public TreeNode left;
 		public TreeNode right;

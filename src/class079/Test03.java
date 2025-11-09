@@ -17,7 +17,7 @@ package class079;
 
 public class Test03 {
     // 不要提交这个类
-    private static class TreeNode{
+    private static class TreeNode {
         public int val;
         public TreeNode left;
         public TreeNode right;
@@ -25,6 +25,52 @@ public class Test03 {
 
     // 提交如下的方法
     public static final int MAXN = 100010;
+    // 下标为节点的值
+    public static int[] dfn = new int[MAXN];
 
+    // 下标为dfn序号
+    public static int[] deep = new int[MAXN];
 
+    // 下标为dfn序号
+    public static int[] size = new int[MAXN];
+
+    public static int[] maxl = new int[MAXN];
+
+    public static int[] maxr = new int[MAXN];
+
+    public static int dfnCnt;
+
+    private static void f(TreeNode x, int k) {
+        int i = ++dfnCnt;
+        dfn[x.val] = i;
+        deep[i] = k;
+        size[i] = 1;
+        if (x.left != null) {
+            f(x.left, k + 1);
+            size[i] += size[dfn[x.left.val]];
+        }
+        if (x.right != null) {
+            f(x.right, k + 1);
+            size[i] += size[dfn[x.right.val]];
+        }
+    }
+
+    public static int[] treeQueries(TreeNode root, int[] queries) {
+        dfnCnt = 0;
+        f(root, 0);
+        for (int i = 1; i <= dfnCnt; i++) {
+            maxl[i] = Math.max(maxl[i - 1], deep[i]);
+        }
+        for (int i = dfnCnt - 1; i >= 0; i--) {
+            maxr[i] = Math.max(maxr[i + 1], deep[i]);
+        }
+        int m = queries.length;
+        int[] ans = new int[m];
+        for (int i = 0; i < m; i++) {
+            int leftMax = maxl[dfn[queries[i]] - 1];
+            int rightMax = maxr[dfn[queries[i]] + size[dfn[queries[i]]]];
+            ans[i] = Math.max(leftMax, rightMax);
+        }
+        return ans;
+    }
 }

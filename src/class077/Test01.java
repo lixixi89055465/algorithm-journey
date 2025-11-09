@@ -1,5 +1,7 @@
 package class077;
 
+import java.io.*;
+
 // 完成配对需要的最少字符数量
 // 给定一个由'['、']'、'('，')'组成的字符串
 // 请问最少插入多少个括号就能使这个字符串的所有括号正确配对
@@ -10,17 +12,26 @@ package class077;
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 public class Test01 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+        String str = br.readLine();
+        out.println(compute(str));
+        out.flush();
+        out.close();
+        br.close();
+    }
 
     public static int compute(String str) {
         char[] s = str.toCharArray();
-        int n = s.length;
+        int n = str.length();
         int[][] dp = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 dp[i][j] = -1;
             }
         }
-        return f(s, 0, s.length - 1, dp);
+        return f(s, 0, n - 1, dp);
     }
 
     public static int f(char[] s, int l, int r, int[][] dp) {
@@ -42,8 +53,7 @@ public class Test01 {
         }
         int p2 = Integer.MAX_VALUE;
         for (int m = l; m < r; m++) {
-            p2 = Math.min(p2,
-                    dp[l][m] + dp[m + 1][r]);
+            p2 = Math.min(p2, f(s, l, m, dp) + f(s, m + 1, r, dp));
         }
         int ans = Math.min(p1, p2);
         dp[l][r] = ans;

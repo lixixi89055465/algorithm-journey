@@ -14,7 +14,45 @@ package class077;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+
+import java.io.*;
+
+/**
+ * 664. 奇怪的打印机
+ * 困难
+ * 相关标签
+ * premium lock icon
+ * 相关企业
+ * 有台奇怪的打印机有以下两个特殊要求：
+ * <p>
+ * 打印机每次只能打印由 同一个字符 组成的序列。
+ * 每次可以在从起始到结束的任意位置打印新字符，并且会覆盖掉原来已有的字符。
+ * 给你一个字符串 s ，你的任务是计算这个打印机打印它需要的最少打印次数。
+ * <p>
+ * <p>
+ * 示例 1：
+ * <p>
+ * 输入：s = "aaabbb"
+ * 输出：2
+ * 解释：首先打印 "aaa" 然后打印 "bbb"。
+ * 示例 2：
+ * <p>
+ * 输入：s = "aba"
+ * 输出：2
+ * 解释：首先打印 "aaa" 然后在第二个位置打印 "b" 覆盖掉原来的字符 'a'。
+ */
 public class Test02 {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+        String str = br.readLine();
+        out.println(strangePrinter(str));
+        out.flush();
+        out.close();
+        br.close();
+    }
+
 
     // 时间复杂度O(n^3)
     // 测试链接 : https://leetcode.cn/problems/strange-printer/
@@ -27,22 +65,24 @@ public class Test02 {
             dp[i][i] = 1;
             dp[i][i + 1] = s[i] == s[i + 1] ? 1 : 2;
         }
-        for (int l = n - 3; l >= 0; l--) {
-
-            for (int r = l + 2; r < n; r++) {
-                int ans = Integer.MAX_VALUE;
-                if (s[l] == s[r]) {
-                    dp[l][r] = dp[l + 1][r + 1];
+        int ans = Integer.MAX_VALUE;
+        for (int L = n - 3; L >= 0; L--) {
+            for (int R = L + 1; R < n; R++) {
+                if (s[L] == s[R]) {
+                    dp[L][R] = dp[L][R - 1];
                 } else {
-                    for (int m = l; m < r; m++) {
-                        ans = Math.max(ans,
-                                dp[m + 1][r] + dp[l][m]);
+                    ans = Integer.MAX_VALUE;
+                    for (int m = L; m < R; m++) {
+                        ans = Math.min(
+                                ans,
+                                dp[L][m] + dp[m + 1][R]
+                        );
+                        dp[L][R] = ans;
                     }
-                    dp[l][r] = ans;
                 }
+
             }
         }
         return dp[0][n - 1];
     }
-
 }

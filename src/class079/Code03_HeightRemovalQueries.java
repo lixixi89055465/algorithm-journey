@@ -61,7 +61,7 @@ public class Code03_HeightRemovalQueries {
 	}
 
 	// 来到x节点，从头节点到x节点经过了k条边
-	public static void f(TreeNode x, int k) {
+	private static void f(TreeNode x, int k) {
 		int i = ++dfnCnt;
 		dfn[x.val] = i;
 		deep[i] = k;
