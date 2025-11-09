@@ -24,7 +24,9 @@ public class Code03_PartitionToKEqualSumSubsets {
 	}
 
 	// 就是题目2的递归函数
-	public static boolean f1(int[] nums, int limit, int status, int cur, int rest, int[] dp) {
+	public static boolean f1(int[] nums, int limit,
+							 int status, int cur,
+							 int rest, int[] dp) {
 		if (rest == 0) {
 			return status == 0;
 		}

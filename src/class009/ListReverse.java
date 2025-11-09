@@ -59,7 +59,7 @@ public class ListReverse {
 	}
 
 	// 单链表节点
-	public static class ListNode {
+	private static class ListNode {
 		public int val;
 		public ListNode next;
 
@@ -74,7 +74,7 @@ public class ListReverse {
 	}
 
 	// 反转单链表测试链接 : https://leetcode.cn/problems/reverse-linked-list/
-	class Solution {
+	private static class Solution {
 
 		public static ListNode reverseList(ListNode head) {
 			ListNode pre = null;
