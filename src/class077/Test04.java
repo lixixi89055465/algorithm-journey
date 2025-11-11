@@ -36,19 +36,19 @@ public class Test04 {
             return dp[l][r][k];
         }
         int s = l;
-        while (boxes[s] == boxes[s + 1]) {
+        while (s + 1 <= r && boxes[l] == boxes[s + 1]) {
             s++;
         }
         int cnt = k + s - l + 1;
         int ans = cnt * cnt + f(boxes, s + 1, r, 0, dp);
         for (int m = s + 2; m <= r; m++) {
             if (boxes[l] == boxes[m] && boxes[m - 1] != boxes[m]) {
-
-
+                ans = Math.max(ans,
+                        f(boxes, s + 1, m - 1, 0, dp) +
+                                f(boxes, m, r, cnt, dp));
             }
-
         }
-
-
+        dp[l][r][k] = ans;
+        return ans;
     }
 }
