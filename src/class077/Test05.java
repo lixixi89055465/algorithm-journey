@@ -28,26 +28,23 @@ public class Test05 {
     // 不用加上最后合并成1份的代价
     public static int mergeStones(int[] stones, int k) {
         int n = stones.length;
-        if ((n - 1) % (k - 1) != 1) {
+        if ((n - 1) % (k - 1) != 0) {
             return -1;
         }
-        int[] preSum = new int[n + 1];
-        int sum = 0;
-        for (int i = 0; i < n; i++) {
-            preSum[i] = sum;
+        int[] presum = new int[n + 1];
+        for (int i = 0, j = 1, sum = 0; i < n; i++, j++) {
             sum += stones[i];
+            presum[j] = sum;
         }
-        preSum[n] = sum;
         int[][] dp = new int[n][n];
-        int ans = 0;
-        for (int l = n - 2; l >= 0; l--) {
-            for (int r = l + 1; r < n; r++) {
+        for (int l = n - 2, ans; l >= 0; l--) {
+            for (int r = l; r < n; r++) {
                 ans = Integer.MAX_VALUE;
-                for (int m = l; m < r; m += (k - 1)) {
+                for (int m = l; m < r; m += k) {
                     ans = Math.min(ans, dp[l][m] + dp[m + 1][r]);
                 }
-                if ((r - l) % (k - 1) == 1) {
-                    ans += preSum[r] - preSum[l];
+                if ((r - l) % (k - 1) == 0) {
+                    ans += (presum[r + 1] - presum[l]);
                 }
                 dp[l][r] = ans;
             }
