@@ -7,6 +7,19 @@ package class077;
 // 这样一轮之后你将得到 k * k 个积分
 // 返回你能获得的最大积分总和
 // 测试链接 : https://leetcode.cn/problems/remove-boxes/
+
+/**
+ * 示例 1：
+ * <p>
+ * 输入：boxes = [1,3,2,2,2,3,4,3,1]
+ * 输出：23
+ * 解释：
+ * [1, 3, 2, 2, 2, 3, 4, 3, 1]
+ * ----> [1, 3, 3, 4, 3, 1] (3*3=9 分)
+ * ----> [1, 3, 3, 3, 1] (1*1=1 分)
+ * ----> [1, 1] (3*3=9 分)
+ * ----> [] (2*2=4 分)
+ */
 public class Test04 {
 
     public static int removeBoxes(int[] boxes) {
@@ -19,7 +32,6 @@ public class Test04 {
         if (l > r) {
             return 0;
         }
-        //l<= r
         if (dp[l][r][k] > 0) {
             return dp[l][r][k];
         }
@@ -27,16 +39,10 @@ public class Test04 {
         while (s + 1 <= r && boxes[l] == boxes[s + 1]) {
             s++;
         }
-        //boxes[l...s] 都是一种颜色，boxes[s+1]就不是同一种颜色了
-        // cnt 是总前缀数量：之前的相同前缀(k个) + l ... s 这个颜色相同的部分 (s-l+1个)
         int cnt = k + s - l + 1;
-        //可能性1 : 前缀先消
         int ans = cnt * cnt + f(boxes, s + 1, r, 0, dp);
-        //可能性2: 讨论前缀跟着哪个后，一起消掉
         for (int m = s + 2; m <= r; m++) {
             if (boxes[l] == boxes[m] && boxes[m - 1] != boxes[m]) {
-                //boxes[l]==boxes[m] 是必须条件
-                //boxes[m-1]!=boxes[m] 是剪枝条件，避免不必要的额调用
                 ans = Math.max(ans,
                         f(boxes, s + 1, m - 1, 0, dp) +
                                 f(boxes, m, r, cnt, dp));

@@ -5,7 +5,7 @@ public class Test06 {
     public static int ans;
 
     // 不要提交这个类
-    public static class TreeNode {
+    private static class TreeNode {
         public int val;
         public TreeNode left;
         public TreeNode right;
@@ -32,8 +32,8 @@ public class Test06 {
         if (x == null) {
             return 1;
         }
-        int left=f(x.left);
-        int right=f(x.right);
+        int left = f(x.left);
+        int right = f(x.right);
         if (left == 0 || right == 0) {
             ans++;
             return 2;
@@ -43,5 +43,4 @@ public class Test06 {
         }
         return 1;
     }
-
 }

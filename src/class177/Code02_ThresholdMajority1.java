@@ -15,7 +15,7 @@ import java.util.Comparator;
 
 public class Code02_ThresholdMajority1 {
 
-	private static  Solution {
+	private static  class Solution {
 
 		public static int MAXN = 10001;
 		public static int MAXM = 50001;

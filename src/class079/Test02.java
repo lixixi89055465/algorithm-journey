@@ -23,7 +23,7 @@ public class Test02 {
         for (int i = 1; i < n; i++) {
             graph.get(parent[i]).add(i);
         }
-        return f(parent, graph, 0).maxPath;
+        return f(s, graph, 0).maxPath;
     }
 
     private static class Info {
@@ -36,7 +36,7 @@ public class Test02 {
         }
     }
 
-    private static Info f(int[] s,
+    private static Info f(char[] s,
                           ArrayList<ArrayList<Integer>> graph,
                           int u) {
         if (graph.get(u).isEmpty()) {
@@ -47,19 +47,18 @@ public class Test02 {
         int maxPath = 1;
         for (Integer v : graph.get(u)) {
             Info nextInfo = f(s, graph, v);
-            maxPath = Math.max(maxPath, nextInfo.maxPath);
+            maxPath = Math.max(nextInfo.maxPath, maxPath);
             if (s[u] != s[v]) {
-                if (max1 < nextInfo.maxPathFromHead) {
-                    max1 = nextInfo.maxPathFromHead;
+                if (nextInfo.maxPathFromHead > max1) {
                     max2 = max1;
-                } else if (max2 < nextInfo.maxPathFromHead) {
+                    max1 = nextInfo.maxPathFromHead;
+                } else if (nextInfo.maxPathFromHead > max2) {
                     max2 = nextInfo.maxPathFromHead;
                 }
             }
         }
         int maxPathFromHead = max1 + 1;
-        maxPath = Math.max(maxPath, max1 + max2) + 1;
+        maxPath = Math.max(maxPath, max1 + max2 + 1);
         return new Info(maxPathFromHead, maxPath);
-
     }
 }

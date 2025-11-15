@@ -104,7 +104,8 @@ public class Code05_CourseSelection1 {
 		// 第j棵子树头节点v 
 		int v = graph.get(i).get(j - 1);
 		for (int s = 1; s < k; s++) {
-			ans = Math.max(ans, f(i, j - 1, k - s) + f(v, graph.get(v).size(), s));
+			ans = Math.max(ans, f(i, j - 1, k - s) +
+					f(v, graph.get(v).size(), s));
 		}
 		dp[i][j][k] = ans;
 		return ans;
