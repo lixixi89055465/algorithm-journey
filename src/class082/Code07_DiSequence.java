@@ -39,17 +39,17 @@ public class Code07_DiSequence {
 		return ans;
 	}
 
-	public static int numPermsDISequence2(String str) {
+	public static int numPermsDISequence2(String s) {
 		int mod = 1000000007;
-		char[] s = str.toCharArray();
-		int n = s.length + 1;
+		char[] chs = s.toCharArray();
+		int n = chs.length + 1;
 		int[][] dp = new int[n + 1][n + 1];
 		for (int less = 0; less <= n; less++) {
 			dp[n][less] = 1;
 		}
 		for (int i = n - 1; i >= 0; i--) {
 			for (int less = 0; less <= n; less++) {
-				if (i == 0 || s[i - 1] == 'D') {
+				if (i == 0 || chs[i - 1] == 'D') {
 					for (int nextLess = 0; nextLess < less; nextLess++) {
 						dp[i][less] = (dp[i][less] + dp[i + 1][nextLess]) % mod;
 					}
@@ -64,16 +64,16 @@ public class Code07_DiSequence {
 	}
 
 	// 通过观察方法2，得到优化枚举的方法
-	public static int numPermsDISequence3(String str) {
+	public static int numPermsDISequence3(String s) {
 		int mod = 1000000007;
-		char[] s = str.toCharArray();
-		int n = s.length + 1;
+		char[] chs = s.toCharArray();
+		int n = chs.length + 1;
 		int[][] dp = new int[n + 1][n + 1];
 		for (int less = 0; less <= n; less++) {
 			dp[n][less] = 1;
 		}
 		for (int i = n - 1; i >= 0; i--) {
-			if (i == 0 || s[i - 1] == 'D') {
+			if (i == 0 || chs[i - 1] == 'D') {
 				dp[i][1] = dp[i + 1][0];
 				for (int less = 2; less <= n; less++) {
 					dp[i][less] = (dp[i][less - 1] + dp[i + 1][less - 1]) % mod;
