@@ -9,7 +9,7 @@ package class082;
 public class Code04_Stock4 {
 
 	// 就是股票问题2
-	public static int free(int[] prices) {
+	private static int free(int[] prices) {
 		int ans = 0;
 		for (int i = 1; i < prices.length; i++) {
 			ans += Math.max(prices[i] - prices[i - 1], 0);
