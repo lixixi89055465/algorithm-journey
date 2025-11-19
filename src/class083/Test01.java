@@ -25,9 +25,7 @@ public class Test01 {
 
     public static int[] dp = new int[MAXN];
 
-    public static int jobScheduling(int[] startTime,
-                                    int[] endTime,
-                                    int[] profit) {
+    public static int jobScheduling( int[] startTime, int[] endTime, int[] profit) {
         int n = startTime.length;
         for (int i = 0; i < n; i++) {
             jobs[i][0] = startTime[i];
