@@ -22,4 +22,8 @@ public class Code05_Stack5 {
 		return done;
 	}
 
+	public static void main(String[] args) {
+		System.out.println("aaaaaaa");
+	}
+
 }
