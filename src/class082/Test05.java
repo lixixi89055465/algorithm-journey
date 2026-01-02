@@ -1,6 +1,13 @@
 package class082;
 
 /**
+ * 创建人: @author lixiang
+ * 创建时间: 2025年11月17日 10:44
+ * 项目名称: algorithm-journey
+ * 文件名称: Test05
+ * 文件描述: @Description:
+ * site:
+ * <p>
  * // 买卖股票的最佳时机含手续费
  * // 给定一个整数数组 prices，其中 prices[i]表示第 i 天的股票价格
  * // 整数 fee 代表了交易股票的手续费用
@@ -22,6 +29,6 @@ public class Test05 {
     }
 
     public static void main(String[] args) {
-
+        System.out.println("aaaaaa");
     }
 }

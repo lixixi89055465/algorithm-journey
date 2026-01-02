@@ -1,6 +1,13 @@
 package class082;
 
 /**
+ * 创建人: @author lixiang
+ * 创建时间: 2025年11月17日 11:21
+ * 项目名称: algorithm-journey
+ * 文件名称: Test07
+ * 文件描述: @Description:
+ * site:
+ * <p>
  * // DI序列的有效排列
  * // 给定一个长度为n的字符串s，其中s[i]是:
  * // "D"意味着减少，"I"意味着增加
@@ -28,12 +35,12 @@ public class Test07 {
         int ans = 0;
         if (i == n) {
             ans = 1;
-        } else if (i == 0 || s[i - 1] != 'D') {
+        } else if (i == 0 || s[i - 1] == 'D') {
             for (int nextLess = 0; nextLess < less; nextLess++) {
                 ans += f(s, i + 1, nextLess, n);
             }
         } else {
-            for (int nextLess = less, k = 1; k <= n - i - less; nextLess++) {
+            for (int nextLess = less, k = 1; k <= n - i - less; k++, nextLess++) {
                 ans += f(s, i + 1, nextLess, n);
             }
         }
@@ -41,22 +48,22 @@ public class Test07 {
     }
 
     public static int numPermsDISequence2(String str) {
-        int mod = 100000007;
-        char[] chs = str.toCharArray();
-        int n = chs.length + 1;
+        int mod = 1000000007;
+        char[] s = str.toCharArray();
+        int n = s.length + 1;
         int[][] dp = new int[n + 1][n + 1];
         for (int less = 0; less <= n; less++) {
             dp[n][less] = 1;
         }
         for (int i = n - 1; i >= 0; i--) {
             for (int less = 0; less <= n; less++) {
-                if (i == 0 || chs[i] == 'D') {
+                if (i == 0 || s[i - 1] == 'D') {
                     for (int nextLess = 0; nextLess < less; nextLess++) {
-                        dp[i][less] = (dp[i + 1][nextLess] + dp[i][less]) % mod;
+                        dp[i][less] = (dp[i][less] + dp[i + 1][nextLess]) % mod;
                     }
-                } else if (chs[i] == 'I') {
-                    for (int nextLess = 0, k = 1; k <= n - i - less; k++, nextLess++) {
-                        dp[i][less] = (dp[i + 1][nextLess] + dp[i][less]) % mod;
+                } else {
+                    for (int nextLess = less, k = 1; k <= n - i - less; k++, nextLess++) {
+                        dp[i][less] = (dp[i][less] + dp[i + 1][nextLess]) % mod;
                     }
                 }
             }
@@ -68,25 +75,29 @@ public class Test07 {
     public static int numPermsDISequence3(String str) {
         int mod = 1000000007;
         char[] s = str.toCharArray();
-        int n = s.length - 1;
+        int n = s.length + 1;
         int[][] dp = new int[n + 1][n + 1];
-        for (int less = 0; less <= n; less++) {
+        for (int less = 0; less < n; less++) {
             dp[n][less] = 1;
         }
+
         for (int i = n - 1; i >= 0; i--) {
             if (i == 0 || s[i - 1] == 'D') {
                 dp[i][1] = dp[i + 1][0];
-                for (int less = 0; less <= n; less++) {
-                    dp[i][less] = (dp[i][less - 1] + dp[i - 1][less - 1]) % mod;
+                for (int less = 2; less <= n; less++) {
+                    dp[i][less] = (dp[i][less - 1] + dp[i + 1][less - 1]) % mod;
                 }
             } else {
                 dp[i][n - i - 1] = dp[i + 1][n - i - 1];
                 for (int less = n - i - 2; less >= 0; less--) {
                     dp[i][less] = (dp[i][less + 1] + dp[i + 1][less]) % mod;
-
                 }
             }
         }
         return dp[0][n];
+    }
+
+    public static void main(String[] args) {
+
     }
 }
