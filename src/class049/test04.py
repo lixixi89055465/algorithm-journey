@@ -17,12 +17,10 @@ class Code04_GasStation:
         l = 0
         r = 0
         while l < n:
-            sum = 0
-            while sum + gas[r % n] - cost[r % n] >= 0:
+            r = l
+            while sum + gas[r % n] - cost[r % n] > 0:
                 if r - l + 1 == n:
                     return l
                 sum += (gas[r % n] - cost[r % n])
                 r += 1
-            l = r + 1
-            r = l
         return -1

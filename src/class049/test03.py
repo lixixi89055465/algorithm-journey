@@ -13,20 +13,18 @@ class Code03_MinimumWindowSubstring:
         cnts = [0 for _ in range(256)]
         for i, v in enumerate(t):
             cnts[v] -= 1
-        len1 = sys.maxsize
-        l = 0
+        len = sys.maxsize
         start = 0
         debt = len(t)
+        l = 0
         for r in range(len(s)):
             if cnts[s[r]] < 0:
                 debt -= 1
-            cnts[s[r]] += 1
             if debt == 0:
                 while cnts[s[l]] > 0:
                     cnts[s[l]] -= 1
                     l += 1
-                if r - l + 1 < len1:
-                    len1 = r - l + 1
+                if r - l + 1 < len:
+                    len = r - l + 1
                     start = l
-        return 0 if len1 == sys.maxsize else s[start:start + len1]
-
+        return "" if len == sys.maxsize else s[start:start + len]
