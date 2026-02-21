@@ -19,31 +19,30 @@ class Code04_StampingTheGrid:
         for i in range(n):
             for j in range(m):
                 sum[i + 1][j + 1] = grid[i][j]
-        self.build()
+        self.build(sum)
         diff = [[0 for i in range(m + 2)] for j in range(n + 2)]
         a = 1
         for c in range(a + h - 1, n + 1):
             b = 1
             for d in range(b + w - 1, m + 1):
-                if self.sumRegion(a, b, c, d) == 0:
-                    self.add(a, b, c, d)
+                if self.sumRegion(sum,a, b, c, d) == 0:
+                    self.add(diff,a, b, c, d)
                 b += 1
             a += 1
-        self.build()
+        self.build(diff)
         for i in range(n):
             for j in range(m):
                 if grid[i][j] == 0 and diff[i + 1][j + 1] == 0:
                     return False
         return True
 
-    def build(self):
-        m = self.diff
+    def build(self,m:List[List[int]]):
         for i in range(1, len(m)):
             for j in range(1, len(m[0])):
                 m[i][j] += m[i - 1][j] + m[i][j - 1] - m[i - 1][j - 1]
 
     def sumRegion(self, sum: List[List[int]], a, b, c, d):
-        return sum[c][d] - sum[c][d - 1] - sum[a - 1][d] + sum[a - 1][b - 1]
+        return sum[c][d] - sum[c][b - 1] - sum[a - 1][d] + sum[a - 1][b - 1]
 
     def add(self, a, b, c, d):
         self.diff[a][b] += 1

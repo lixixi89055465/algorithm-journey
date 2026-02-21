@@ -34,11 +34,11 @@ public class Code04_StampingTheGrid {
 			for (int b = 1, d = b + w - 1; d <= m; b++, d++) {
 				// 原始矩阵中 (a,b)左上角点
 				// 根据邮票规格，h、w，算出右下角点(c,d)
-				// 这个区域彻底都是0，那么: 
+				// 这个区域彻底都是0，那么:
 				// sumRegion(sum, a, b, c, d) == 0
 				// 那么此时这个区域可以贴邮票
-				if (sumRegion(sum, a, b, c, d) == 0) {
-					add(diff, a, b, c, d);
+				if (self.sumRegion(sum, a, b, c, d) == 0) {
+					self.add(diff, a, b, c, d);
 				}
 			}
 		}

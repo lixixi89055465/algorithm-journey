@@ -27,62 +27,60 @@ class Code05_StrongestForceField:
         xs = [0 for _ in range(n << 1)]
         ys = [0 for _ in range(n << 1)]
         k = 0
-        r = 0
         p = 0
-        for i, v in enumerate(fields):
-            x = v[0]
-            y = v[1]
-            z = v[2]
+        for i in range(n):
+            x = fields[i][0]
+            y = fields[i][1]
+            r = fields[i][2]
             xs[k] = (x << 1) - r
             k += 1
             xs[k] = (x << 1) + r
             k += 1
-            ys[p] = (y << 1) - r
+            ys[k] = (y << 1) - r
             p += 1
-            ys[p] = (y << 1) + r
+            ys[k] = (y << 1) + r
+            p += 1
         sizex = self.sort(xs)
         sizey = self.sort(ys)
-        diff = [[0 for _ in range(sizey + 2)] for _ in range(sizex + 2)]
-        for i, v in enumerate(fields):
-            x = v[0]
-            y = v[1]
-            r = v[2]
+        diff = [[0 for i in range(sizey + 2)] for _ in range(sizex + 2)]
+        for i in range(n):
+            x = fields[i][0]
+            y = fields[i][1]
+            r = fields[i][2]
             a = self.rank(xs, (x << 1) - r, sizex)
-            b = self.rank(ys, (y << 1) + r, sizey)
-            c = self.rank(xs, (x << 1) - r, sizex)
-            d = self.rank(ys, (y << 1) + r, sizex)
+            b = self.rank(xs, (x << 1) + r, sizey)
+            c = self.rank(ys, (x << 1) - r, sizex)
+            d = self.rank(ys, (x << 1) + r, sizey)
             self.add(diff, a, b, c, d)
         ans = 0
         for i in range(1, len(diff)):
             for j in range(1, len(diff[0])):
-                diff[i][j] += diff[i - 1][j] + diff[i][j - 1] - diff[i - 1][j - 1]
+                diff[i][j] = diff[i - 1][j] + diff[i][j - 1] + diff[i][j] - diff[i - 1][j - 1]
                 ans = max(ans, diff[i][j])
         return ans
 
-    def sort(self, nums: List[int]):
-        nums.sort()
-        size = 1
-        for i, v in enumerate(nums):
-            if v != nums[size - 1]:
-                nums[size] = nums[i]
-                size += 1
-        return size
-
-    def add(self, diff, a, b, c, d):
+    def add(self, diff: List[List[int]], a, b, c, d):
         diff[a][b] += 1
+        diff[c + 1][b] += 1
         diff[c + 1][d + 1] += 1
-        diff[c + 1][b] -= 1
-        diff[a][d + 1] -= 1
+        diff[a][d + 1] += 1
 
     def rank(self, nums: List[int], v, size):
         l = 0
         r = size - 1
-        m, ans = 0
+        ans = 0
         while l <= r:
-            m = (l + r) / 2
+            m = (l + r) // 2
             if nums[m] >= v:
-                ans = m
+                ans = nums[m]
                 r = m - 1
             else:
                 l = m + 1
         return ans + 1
+
+    def sort(self, nums: List[int]):
+        size = 0
+        for i in range(1, len(nums)):
+            if nums[i] != nums[size]:
+                size = size + 1
+        return size + 1
